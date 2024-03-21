@@ -7,9 +7,9 @@ import pizzashop.model.PaymentType;
 import java.util.Optional;
 
 public class PaymentAlert implements PaymentOperation {
-    private PizzaService service;
+    private OrdersService service;
 
-    public PaymentAlert(PizzaService service){
+    public PaymentAlert(OrdersService service){
         this.service=service;
     }
 

@@ -1,14 +1,19 @@
 package pizzashop.model;
 
 
+import java.time.LocalDateTime;
+
 public class Payment {
     private int tableNumber;
     private PaymentType type;
     private double amount;
-    public Payment(int tableNumber, PaymentType type, double amount) {
-        this.tableNumber = tableNumber;
+    private LocalDateTime orderPlacedAt;
+
+    public Payment(int table, PaymentType type, double amount, LocalDateTime dateTime) {
+        this.tableNumber = table;
         this.type = type;
         this.amount = amount;
+        this.orderPlacedAt = dateTime;
     }
 
     public int getTableNumber() {
@@ -37,6 +42,14 @@ public class Payment {
 
     @Override
     public String toString() {
-        return tableNumber + ","+type +"," + amount;
+        return tableNumber + "," + type + "," + amount + "," + orderPlacedAt.toString();
+    }
+
+    public LocalDateTime getOrderPlacedAt() {
+        return orderPlacedAt;
+    }
+
+    public void setOrderPlacedAt(LocalDateTime orderPlacedAt) {
+        this.orderPlacedAt = orderPlacedAt;
     }
 }

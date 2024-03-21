@@ -7,11 +7,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pizzashop.controller.OrdersGUIController;
-import pizzashop.service.PizzaService;
+import pizzashop.service.OrdersService;
 
 import java.io.IOException;
 
-public class OrdersGUI {
+public class OrdersGUIInitializer {
     protected int tableNumber;
     public int getTableNumber() {
         return tableNumber;
@@ -19,7 +19,7 @@ public class OrdersGUI {
     public void setTableNumber(int tableNumber) { this.tableNumber = tableNumber; }
     private PizzaService service;
 
-    public void displayOrdersForm(PizzaService service){
+    public void displayOrdersForm(OrdersService service){
      VBox vBoxOrders = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OrdersGUIFXML.fxml"));

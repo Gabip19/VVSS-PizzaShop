@@ -6,14 +6,14 @@ import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class PizzaService {
-
+public class OrdersService {
     private MenuRepository menuRepo;
     private PaymentRepository payRepo;
 
-    public PizzaService(MenuRepository menuRepo, PaymentRepository payRepo){
+    public OrdersService(MenuRepository menuRepo, PaymentRepository payRepo){
         this.menuRepo=menuRepo;
         this.payRepo=payRepo;
     }
@@ -23,8 +23,8 @@ public class PizzaService {
     public List<Payment> getPayments(){return payRepo.getAll(); }
 
     public void addPayment(int table, PaymentType type, double amount){
-        Payment payment= new Payment(table, type, amount);
-        payRepo.add(payment);
+        LocalDateTime currentDate = LocalDateTime.now();
+        payRepo.add(table, type, amount, currentDate);
     }
 
     public double getTotalAmount(PaymentType type){
