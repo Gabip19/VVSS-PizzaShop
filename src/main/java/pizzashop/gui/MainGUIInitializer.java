@@ -13,9 +13,13 @@ import pizzashop.model.PaymentType;
 import pizzashop.service.OrdersService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class MainGUIInitializer {
+    public MainGUIInitializer() {
+    }
+
     public void InitGui(Stage primaryStage, OrdersService service) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainFXML.fxml"));
         //VBox box = loader.load();
@@ -32,8 +36,9 @@ public class MainGUIInitializer {
                 Optional<ButtonType> result = exitAlert.showAndWait();
                 if (result.get() == ButtonType.YES){
                     //Stage stage = (Stage) this.getScene().getWindow();
-                    System.out.println("Incasari cash: "+ service.getTotalAmount(PaymentType.Cash));
-                    System.out.println("Incasari card: "+ service.getTotalAmount(PaymentType.Card));
+                    LocalDate currentDate = LocalDate.now();
+                    System.out.println("Incasari cash: "+ service.getTotalPaymentsAmountForDate(PaymentType.Cash, currentDate));
+                    System.out.println("Incasari card: "+ service.getTotalPaymentsAmountForDate(PaymentType.Card, currentDate));
 
                     primaryStage.close();
                 }
@@ -43,9 +48,7 @@ public class MainGUIInitializer {
                 }
                 else {
                     event.consume();
-
                 }
-
             }
         });
         primaryStage.setScene(new Scene(box));
