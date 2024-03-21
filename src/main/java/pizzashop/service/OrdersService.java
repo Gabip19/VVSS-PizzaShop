@@ -1,6 +1,6 @@
 package pizzashop.service;
 
-import pizzashop.model.MenuDataModel;
+import pizzashop.model.MenuItem;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
@@ -18,7 +18,7 @@ public class OrdersService {
         this.payRepo=payRepo;
     }
 
-    public List<MenuDataModel> getMenuData(){return menuRepo.getMenu();}
+    public List<MenuItem> getMenuData(){return menuRepo.getMenu();}
 
     public List<Payment> getPayments(){return payRepo.getAll(); }
 
@@ -28,7 +28,7 @@ public class OrdersService {
     }
 
     public double getTotalAmount(PaymentType type){
-        double total=0.0f;
+        double total=0.0d;
         List<Payment> l=getPayments();
         if ((l==null) ||(l.size()==0)) return total;
         for (Payment p:l){
