@@ -6,6 +6,7 @@ import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,14 +28,18 @@ public class OrdersService {
         payRepo.add(table, type, amount, currentDate);
     }
 
-    public double getTotalAmount(PaymentType type){
-        double total=0.0d;
-        List<Payment> l=getPayments();
-        if ((l==null) ||(l.size()==0)) return total;
-        for (Payment p:l){
-            if (p.getType().equals(type))
-                total+=p.getAmount();
+    public double getTotalPaymentsAmountForDate(PaymentType type, LocalDate date){
+        double total = 0.0d;
+        List<Payment> l = getPayments();
+
+        if (l == null || l.size() == 0)
+            return total;
+
+        for (Payment p : l) {
+            if (p.getType().equals(type) && p.getOrderPlacedAt().toLocalDate().isEqual(date))
+                total += p.getAmount();
         }
+
         return total;
     }
 
