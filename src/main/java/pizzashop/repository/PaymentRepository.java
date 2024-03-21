@@ -61,7 +61,7 @@ public class PaymentRepository {
         System.out.println("Platesc!");
         File file = new File(filename);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             System.out.println(payment.toString());
             bw.write(payment.toString());
             bw.newLine();
