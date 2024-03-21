@@ -5,26 +5,27 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MenuItem  {
-    private final SimpleStringProperty menuItem;
+    private final SimpleStringProperty menuItemName;
     private final SimpleIntegerProperty quantity;
+
     private final SimpleDoubleProperty price;
 
     public MenuItem(String mItem, Integer mQuantity, Double mPrice) {
-        this.menuItem = new SimpleStringProperty(mItem);
+        this.menuItemName = new SimpleStringProperty(mItem);
         this.quantity = new SimpleIntegerProperty(mQuantity);
         this.price = new SimpleDoubleProperty(mPrice);
     }
 
     public String getMenuItem() {
-        return menuItem.get();
+        return menuItemName.get();
     }
 
     public SimpleStringProperty menuItemProperty() {
-        return menuItem;
+        return menuItemName;
     }
 
     public void setMenuItem(String menuItem) {
-        this.menuItem.set(menuItem);
+        this.menuItemName.set(menuItem);
     }
 
     public Integer getQuantity() {

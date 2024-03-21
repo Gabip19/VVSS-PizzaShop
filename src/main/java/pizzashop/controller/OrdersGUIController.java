@@ -48,8 +48,8 @@ public class OrdersGUIController {
     public static double getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public static void setTotalAmount(double totalAmount) {
+        OrdersGUIController.totalAmount = totalAmount;
     }
 
     private OrdersService service;
@@ -60,8 +60,6 @@ public class OrdersGUIController {
     private ObservableList<MenuItem> menuData;// = FXCollections.observableArrayList();
     private Calendar now = Calendar.getInstance();
     private static double totalAmount;
-
-    public OrdersGUIController(){ }
 
     public void setService(OrdersService service, int tableNumber){
         this.service=service;

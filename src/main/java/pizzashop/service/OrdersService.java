@@ -32,7 +32,7 @@ public class OrdersService {
         double total = 0.0d;
         List<Payment> l = getPayments();
 
-        if (l == null || l.size() == 0)
+        if (l == null || l.isEmpty())
             return total;
 
         for (Payment p : l) {

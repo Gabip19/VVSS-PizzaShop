@@ -37,8 +37,8 @@ public class MainGUIInitializer {
                 if (result.get() == ButtonType.YES){
                     //Stage stage = (Stage) this.getScene().getWindow();
                     LocalDate currentDate = LocalDate.now();
-                    System.out.println("Incasari cash: "+ service.getTotalPaymentsAmountForDate(PaymentType.Cash, currentDate));
-                    System.out.println("Incasari card: "+ service.getTotalPaymentsAmountForDate(PaymentType.Card, currentDate));
+                    System.out.println("Incasari cash: "+ service.getTotalPaymentsAmountForDate(PaymentType.CASH, currentDate));
+                    System.out.println("Incasari card: "+ service.getTotalPaymentsAmountForDate(PaymentType.CARD, currentDate));
 
                     primaryStage.close();
                 }
