@@ -23,7 +23,15 @@ public class OrdersService {
 
     public List<Payment> getPayments(){return payRepo.getAll(); }
 
-    public void addPayment(int table, PaymentType type, double amount){
+    public void addPayment(int table, PaymentType type, double amount) {
+        if (table < 1 || table > 8) {
+            throw new RuntimeException("Invalid table id");
+        }
+
+        if (amount <= 0) {
+            throw new RuntimeException("Invalid amount");
+        }
+
         LocalDateTime currentDate = LocalDateTime.now();
         payRepo.add(table, type, amount, currentDate);
     }
