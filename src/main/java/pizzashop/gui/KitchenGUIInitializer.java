@@ -11,8 +11,8 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 import java.util.Optional;
 
-public class KitchenGUI {
-    public void KitchenGUI() {
+public class KitchenGUIInitializer {
+    public void InitGui() {
         VBox vBoxKitchen = null;
 
         try {

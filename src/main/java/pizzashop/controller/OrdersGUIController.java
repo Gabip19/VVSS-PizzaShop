@@ -8,10 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import pizzashop.model.MenuDataModel;
-import pizzashop.gui.OrdersGUI;
+import pizzashop.model.MenuItem;
 import pizzashop.service.PaymentAlert;
-import pizzashop.service.PizzaService;
+import pizzashop.service.OrdersService;
 
 import java.util.Calendar;
 import java.util.List;
@@ -44,27 +43,25 @@ public class OrdersGUIController {
     @FXML
     private Button newOrder;
 
-    private   List<String> orderList = FXCollections.observableArrayList();
+    private List<String> orderList = FXCollections.observableArrayList();
     private List<Double> orderPaymentList = FXCollections.observableArrayList();
     public static double getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public static void setTotalAmount(double totalAmount) {
+        OrdersGUIController.totalAmount = totalAmount;
     }
 
-    private PizzaService service;
+    private OrdersService service;
     private int tableNumber;
 
     public ObservableList<String> observableList;
-    private TableView<MenuDataModel> table = new TableView<MenuDataModel>();
-    private ObservableList<MenuDataModel> menuData;// = FXCollections.observableArrayList();
+    private TableView<MenuItem> table = new TableView<>();
+    private ObservableList<MenuItem> menuData;// = FXCollections.observableArrayList();
     private Calendar now = Calendar.getInstance();
     private static double totalAmount;
 
-    public OrdersGUIController(){ }
-
-    public void setService(PizzaService service, int tableNumber){
+    public void setService(OrdersService service, int tableNumber){
         this.service=service;
         this.tableNumber=tableNumber;
         initData();
@@ -85,6 +82,8 @@ public class OrdersGUIController {
             observableList = FXCollections.observableList(orderList);
             KitchenGUIController.order.add("Table" + tableNumber +" "+ orderList.toString());
             orderStatus.setText("Order placed at: " +  now.get(Calendar.HOUR)+":"+now.get(Calendar.MINUTE));
+            placeOrder.setDisable(true);
+            addToOrder.setDisable(true);
         });
 
         //Controller for Order Served Button
@@ -113,16 +112,16 @@ public class OrdersGUIController {
         //populate table view with menuData from OrderGUI
         table.setEditable(true);
         tableMenuItem.setCellValueFactory(
-                new PropertyValueFactory<MenuDataModel, String>("menuItem"));
+                new PropertyValueFactory<MenuItem, String>("menuItem"));
         tablePrice.setCellValueFactory(
-                new PropertyValueFactory<MenuDataModel, Double>("price"));
+                new PropertyValueFactory<MenuItem, Double>("price"));
         tableQuantity.setCellValueFactory(
-                new PropertyValueFactory<MenuDataModel, Integer>("quantity"));
+                new PropertyValueFactory<MenuItem, Integer>("quantity"));
 
         //bind pizzaTypeLabel and quantity combo box with the selection on the table view
-        orderTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MenuDataModel>() {
+        orderTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MenuItem>() {
         @Override
-        public void changed(ObservableValue<? extends MenuDataModel> observable, MenuDataModel oldValue, MenuDataModel newValue) {
+        public void changed(ObservableValue<? extends MenuItem> observable, MenuItem oldValue, MenuItem newValue) {
            pizzaTypeLabel.textProperty().bind(newValue.menuItemProperty());
               }
         });
@@ -134,9 +133,9 @@ public class OrdersGUIController {
 
         //Controller for Add to order Button
         addToOrder.setOnAction(event -> {
-            orderTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MenuDataModel>(){
+            orderTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MenuItem>(){
             @Override
-            public void changed(ObservableValue<? extends MenuDataModel> observable, MenuDataModel oldValue, MenuDataModel newValue){
+            public void changed(ObservableValue<? extends MenuItem> observable, MenuItem oldValue, MenuItem newValue){
             oldValue.setQuantity(orderQuantity.getValue());
             orderTable.getSelectionModel().selectedItemProperty().removeListener(this);
                 }
@@ -147,10 +146,10 @@ public class OrdersGUIController {
         newOrder.setOnAction(event -> {
             Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION, "Exit table?",ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = exitAlert.showAndWait();
-            if (result.get() == ButtonType.YES){
+            if (result.get() == ButtonType.YES) {
                 Stage stage = (Stage) newOrder.getScene().getWindow();
                 stage.close();
-                }
+            }
         });
     }
 }
