@@ -9,7 +9,11 @@ import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -134,5 +138,74 @@ class OrdersServiceTest {
                 eq(payment.getAmount()),
                 any(LocalDateTime.class));
         verifyNoMoreInteractions(paymentRepository);
+    }
+
+    @Test
+    @Order(7)
+    public void getTotalPaymentsWithNullList() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(null);
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CASH, LocalDate.of(2024, 4, 18));
+
+        assert total == 0;
+    }
+
+    @Test
+    @Order(8)
+    public void getTotalPaymentsWithEmptyList() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(Collections.emptyList());
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CASH, LocalDate.of(2024, 4, 18));
+
+        assert total == 0;
+    }
+
+    @Test
+    @Order(9)
+    public void getTotalPaymentsWithDifferentPaymentType() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(new ArrayList<>(
+            List.of(new Payment[]{new Payment(1, PaymentType.CARD, 100, LocalDateTime.of(2024, 4, 18, 0, 0, 0))})
+        ));
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CASH, LocalDate.of(2024, 4, 18));
+
+        assert total == 0;
+    }
+
+    @Test
+    @Order(10)
+    public void getTotalPaymentsWithDifferentDate() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(new ArrayList<>(
+                List.of(new Payment[]{new Payment(1, PaymentType.CARD, 100, LocalDateTime.of(2024, 4, 17, 0, 0, 0))})
+        ));
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CARD, LocalDate.of(2024, 4, 18));
+
+        assert total == 0;
+    }
+
+    @Test
+    @Order(11)
+    public void getTotalPaymentsWithOneValidPayment() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(new ArrayList<>(
+                List.of(new Payment[]{new Payment(1, PaymentType.CARD, 100, LocalDateTime.of(2024, 4, 18, 0, 0, 0))})
+        ));
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CARD, LocalDate.of(2024, 4, 18));
+
+        assert total == 100;
+    }
+
+    @Test
+    @Order(12)
+    public void getTotalPaymentsWithValidPayments() {
+        Mockito.when(paymentRepository.getAll()).thenReturn(new ArrayList<>(
+                List.of(new Payment[]{new Payment(1, PaymentType.CARD, 100, LocalDateTime.of(2024, 4, 18, 0, 0, 0)),
+                                    new Payment(2, PaymentType.CARD, 150, LocalDateTime.of(2024, 4, 18, 0, 0, 0))})
+        ));
+
+        double total = ordersService.getTotalPaymentsAmountForDate(PaymentType.CARD, LocalDate.of(2024, 4, 18));
+
+        assert total == 250;
     }
 }
