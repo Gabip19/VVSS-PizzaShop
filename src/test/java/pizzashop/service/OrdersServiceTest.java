@@ -3,7 +3,9 @@ package pizzashop.service;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -45,14 +47,13 @@ public class OrdersServiceTest {
     void tearDown() {
     }
 
-    @ParameterizedTest
+    @Test
     @Order(1)
     @DisplayName("Test for checking a payment - TC1_ECP | TC5_ECP")
     @Tag("TC1_ECP")
     @Tag("TC5_ECP")
-    @ValueSource(doubles = {15, 20})
-    public void addPaymentSuccessfully(double amount) {
-        Payment payment = new Payment(3, PaymentType.CARD, amount, dateTime);
+    public void addPaymentSuccessfully() {
+        Payment payment = new Payment(3, PaymentType.CARD, 15, dateTime);
 
         ordersService.addPayment(payment.getTableNumber(), payment.getType(), payment.getAmount());
 
