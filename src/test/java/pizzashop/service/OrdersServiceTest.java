@@ -36,8 +36,9 @@ class OrdersServiceTest {
 
     @BeforeEach
     void setUp() {
+        menuRepository = Mockito.mock(MenuRepository.class);
+        paymentRepository = Mockito.mock(PaymentRepository.class);
         ordersService = new OrdersService(menuRepository, paymentRepository);
-        MockitoAnnotations.initMocks(this);
     }
 
     @AfterEach

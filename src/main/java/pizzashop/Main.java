@@ -14,7 +14,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         MenuRepository repoMenu=new MenuRepository();
-        PaymentRepository payRepo= new PaymentRepository();
+        PaymentRepository payRepo= new PaymentRepository("data/payments.txt");
         OrdersService service = new OrdersService(repoMenu, payRepo);
 
         System.out.println("Opening main stage");
