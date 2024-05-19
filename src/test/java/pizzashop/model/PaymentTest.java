@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PaymentTest {
+public class PaymentTest {
 
     @Test
     void getType() {

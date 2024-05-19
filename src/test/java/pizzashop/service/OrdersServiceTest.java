@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-class OrdersServiceTest {
+public class OrdersServiceTest {
 
     private final LocalDateTime dateTime = LocalDateTime.of(2024, 10, 10, 10, 10, 10);
 

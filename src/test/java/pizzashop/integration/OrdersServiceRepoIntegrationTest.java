@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OrdersServiceRepoIntegrationTest {
+public class OrdersServiceRepoIntegrationTest {
 
     private final LocalDateTime dateTime = LocalDateTime.of(2024, 10, 10, 10, 10, 10);
     private final String testFilePath = "data/payments_test.txt";
