@@ -1,4 +1,4 @@
-package pizzashop.integration;
+package pizzashop.service;
 
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OrdersServiceFullIntegrationTest {
+public class OrdersServiceRepoIntegrationTest {
 
     private final LocalDateTime dateTime = LocalDateTime.of(2024, 10, 10, 10, 10, 10);
     private final String testFilePath = "data/payments_test.txt";
@@ -48,7 +48,7 @@ public class OrdersServiceFullIntegrationTest {
 
     @Test
     public void addPaymentSuccessfully() {
-        Payment payment = new Payment(3, PaymentType.CARD, 15, dateTime);
+        Payment payment = getMockPayment(3, PaymentType.CARD, 15, dateTime);
 
         ordersService.addPayment(payment.getTableNumber(), payment.getType(), payment.getAmount());
 
@@ -62,11 +62,22 @@ public class OrdersServiceFullIntegrationTest {
 
     @Test
     public void addPaymentWithNegativeAmount() {
-        Payment payment = new Payment(3, PaymentType.CARD, -1, dateTime);
+        Payment payment = getMockPayment(3, PaymentType.CARD, -1, dateTime);
 
         assertThrows(
                 RuntimeException.class,
                 () -> ordersService.addPayment(payment.getTableNumber(), payment.getType(), payment.getAmount()),
                 "Invalid amount");
+    }
+
+    Payment getMockPayment(int tableNumber, PaymentType type, double amount, LocalDateTime dateTime) {
+        Payment payment = Mockito.mock(Payment.class);
+
+        Mockito.when(payment.getTableNumber()).thenReturn(tableNumber);
+        Mockito.when(payment.getType()).thenReturn(type);
+        Mockito.when(payment.getAmount()).thenReturn(amount);
+        Mockito.when(payment.getOrderPlacedAt()).thenReturn(dateTime);
+
+        return payment;
     }
 }
