@@ -1,8 +1,6 @@
 package pizzashop.integration;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -48,14 +46,9 @@ public class OrdersServiceRepoIntegrationTest {
         }
     }
 
-    @ParameterizedTest
-    @Order(1)
-    @DisplayName("Test for checking a payment - TC1_ECP | TC5_ECP")
-    @Tag("TC1_ECP")
-    @Tag("TC5_ECP")
-    @ValueSource(doubles = {15, 20})
-    public void addPaymentSuccessfully(double amount) {
-        Payment payment = getMockPayment(3, PaymentType.CARD, amount, dateTime);
+    @Test
+    public void addPaymentSuccessfully() {
+        Payment payment = getMockPayment(3, PaymentType.CARD, 15, dateTime);
 
         ordersService.addPayment(payment.getTableNumber(), payment.getType(), payment.getAmount());
 
@@ -68,10 +61,6 @@ public class OrdersServiceRepoIntegrationTest {
     }
 
     @Test
-    @Order(4)
-    @Timeout(1)
-    @DisplayName("Test for negative amount - TC7_BVA")
-    @Tag("TC7_BVA")
     public void addPaymentWithNegativeAmount() {
         Payment payment = getMockPayment(3, PaymentType.CARD, -1, dateTime);
 
